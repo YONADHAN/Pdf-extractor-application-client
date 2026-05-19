@@ -8,3 +8,9 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>,
 )
+
+
+//  Redux Provider
+//  QueryClientProvider
+//  BrowserRouter
+//  Sonner

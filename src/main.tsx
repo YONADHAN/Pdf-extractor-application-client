@@ -1,16 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+import App from './App';
 
+import './index.css';
 
-//  Redux Provider
-//  QueryClientProvider
-//  BrowserRouter
-//  Sonner
+import AppProvider from './app/providers/app_provider';
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <AppProvider>
+      <App />
+    </AppProvider>
+  </React.StrictMode>,
+);

@@ -1,40 +1,23 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-
-import { registerSchema } from '../schemas/register_schema';
+import type { UseFormRegister } from 'react-hook-form';
+import type { FieldErrors } from 'react-hook-form';
 
 import type { RegisterSchemaType } from '../schemas/register_schema';
 
-import { useRegister } from '../hooks/use_register';
+interface RegisterFormProps {
+  register: UseFormRegister<RegisterSchemaType>;
 
-const RegisterForm = () => {
-  const { mutate, isPending } = useRegister();
+  errors: FieldErrors<RegisterSchemaType>;
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RegisterSchemaType>({
-    resolver: zodResolver(registerSchema),
-  });
+  isPending: boolean;
+}
 
-  const onSubmit = (data: RegisterSchemaType) => {
-    mutate(data, {
-      onSuccess: (response) => {
-        console.log(response);
-      },
-
-      onError: (error) => {
-        console.log(error);
-      },
-    });
-  };
-
+const RegisterForm = ({
+  register,
+  errors,
+  isPending,
+}: RegisterFormProps) => {
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-5"
-    >
+    <div className="space-y-5">
       {/* NAME */}
       <div>
         <label className="mb-1 block text-sm font-medium text-gray-700">
@@ -115,15 +98,14 @@ const RegisterForm = () => {
         )}
       </div>
 
-      {/* BUTTON */}
       <button
         type="submit"
         disabled={isPending}
         className="w-full rounded-lg bg-black py-3 font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isPending ? 'Registering...' : 'Register'}
+        {isPending ? 'Sending OTP...' : 'Register'}
       </button>
-    </form>
+    </div>
   );
 };
 

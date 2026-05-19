@@ -1,6 +1,7 @@
 import { Route } from 'react-router-dom';
 
 import RegisterPage from '../pages/register_page';
+import LoginPage from '../pages/login_page';
 
 export const authRoutes = [
   <Route
@@ -8,4 +9,8 @@ export const authRoutes = [
     path="/register"
     element={<RegisterPage />}
   />,
+  <Route
+  path="/login"
+  element={<LoginPage />}
+/>
 ];

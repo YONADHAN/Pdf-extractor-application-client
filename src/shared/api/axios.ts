@@ -10,7 +10,10 @@ import {
   responseInterceptorError,
 } from './interceptors/response.interceptor';
 
-const axiosInstance = axios.create({
+
+
+
+export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
 
   withCredentials: true,
@@ -20,12 +23,47 @@ const axiosInstance = axios.create({
   },
 });
 
+
+export const axiosMultipartInstance =
+  axios.create({
+    baseURL:
+      import.meta.env.VITE_API_BASE_URL,
+
+    withCredentials: true,
+
+    headers: {
+      'Content-Type':
+        'multipart/form-data',
+    },
+  });
+
+
+
+export const refreshAxiosInstance =
+  axios.create({
+    baseURL:
+      import.meta.env.VITE_API_BASE_URL,
+
+    withCredentials: true,
+  });
+
 axiosInstance.interceptors.request.use(
   requestInterceptor,
   requestInterceptorError,
 );
 
+axiosMultipartInstance.interceptors.request.use(
+  requestInterceptor,
+  requestInterceptorError,
+);
+
+
 axiosInstance.interceptors.response.use(
+  responseInterceptor,
+  responseInterceptorError,
+);
+
+axiosMultipartInstance.interceptors.response.use(
   responseInterceptor,
   responseInterceptorError,
 );

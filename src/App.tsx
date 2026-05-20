@@ -1,5 +1,5 @@
 
-import AppRouter from "./app/router/app_router"
+import AppRouter from "./app/router/app_routes"
 function App() {
   return (
    <div>

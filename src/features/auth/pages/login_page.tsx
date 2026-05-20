@@ -14,9 +14,13 @@ import type { LoginSchemaType } from '../schemas/login_schema';
 
 import { useLogin } from '../hooks/use_login';
 
+import { useDispatch } from 'react-redux';
+
+import { setUser } from '../redux/auth_slice';
+
 const LoginPage = () => {
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
     const {
         mutate: loginMutation,
         isPending,
@@ -37,6 +41,8 @@ const LoginPage = () => {
 
                 console.log(response.data);
 
+                dispatch(setUser(response.data));
+                
                 navigate('/');
             },
 

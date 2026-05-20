@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Toaster } from 'sonner';
 import QueryProvider from './query_provider';
+import ReduxProvider from './redux_provider';
 
 interface AppProviderProps {
   children: ReactNode;
@@ -9,13 +10,15 @@ interface AppProviderProps {
 const AppProvider = ({
   children,
 }: AppProviderProps) => {
-  return <QueryProvider>
-    {children}
-    <Toaster
-      position="top-center"
-      richColors
-    />
-  </QueryProvider>;
+  return <ReduxProvider>
+    <QueryProvider>
+      {children}
+      <Toaster
+        position="top-center"
+        richColors
+      />
+    </QueryProvider>
+  </ReduxProvider>;
 };
 
 export default AppProvider;

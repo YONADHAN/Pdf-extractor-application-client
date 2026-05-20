@@ -1,10 +1,10 @@
-import axios, {
+import {
   type AxiosError,
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from 'axios';
 
-import { refreshAxiosInstance } from '../axios';
+import axiosInstance, { axiosMultipartInstance, refreshAxiosInstance } from '../axios';
 
 import { store } from '@/app/store/store';
 import { clearUser } from '@/features/auth/redux/auth_slice';
@@ -13,7 +13,22 @@ interface RetryRequestConfig
   extends InternalAxiosRequestConfig {
   _retry?: boolean;
 }
+const getRetryAxiosInstance = (
+  originalRequest: RetryRequestConfig,
+) => {
+  const contentType =
+    originalRequest.headers[
+    'Content-Type'
+    ];
 
+  switch (contentType) {
+    case 'multipart/form-data':
+      return axiosMultipartInstance;
+
+    default:
+      return axiosInstance;
+  }
+};
 export const responseInterceptor = (
   response: AxiosResponse,
 ) => {
@@ -25,7 +40,7 @@ export const responseInterceptorError =
     const originalRequest =
       error.config as RetryRequestConfig;
 
-    
+
     if (
       error.response?.status === 403 &&
       originalRequest &&
@@ -34,13 +49,21 @@ export const responseInterceptorError =
       originalRequest._retry = true;
 
       try {
-       
+
         await refreshAxiosInstance.post(
           '/auth/refresh',
         );
 
-     
-        return axios(originalRequest);
+
+        const retryClient =
+          getRetryAxiosInstance(
+            originalRequest,
+          );
+
+        return retryClient(
+          originalRequest,
+        );
+
       } catch (refreshError) {
         store.dispatch(clearUser());
         return Promise.reject(refreshError);

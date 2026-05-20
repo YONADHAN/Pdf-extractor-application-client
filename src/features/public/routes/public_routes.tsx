@@ -2,7 +2,7 @@ import { Route } from 'react-router-dom';
 
 import HomePage from '../pages/home_page';
 
-export const landingRoutes = [
+export const publicRoutes = [
   <Route
     key="home"
     path="/"

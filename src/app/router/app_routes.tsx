@@ -9,9 +9,10 @@ import AuthRoute from '@/shared/routes/AuthRoute';
 import PrivateRoute from '@/shared/routes/PrivateRoute';
 
 import { authRoutes } from '@/features/auth/routes/auth_routes';
-import { landingRoutes } from '@/features/landing/routes/landing_routes';
+import { publicRoutes } from '@/features/public/routes/public_routes';
+import { pdfRoutes } from '@/features/pdf/routes/pdf_routes';
 
-// import { pdfRoutes } from '@/features/pdf/routes/pdf_routes';
+
 
 const AppRouter = () => {
   return (
@@ -21,7 +22,7 @@ const AppRouter = () => {
 
 
         {/* Public route */}
-        {landingRoutes}
+        {publicRoutes}
        
 
         {/* Auth route protection */}
@@ -32,7 +33,7 @@ const AppRouter = () => {
 
         {/* Private route protection */}
         <Route element={<PrivateRoute />}>
-          {/* {pdfRoutes} */}
+          {pdfRoutes}
         </Route>
 
 

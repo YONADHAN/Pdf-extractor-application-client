@@ -12,12 +12,17 @@ interface PdfCardProps {
   onDelete: (
     pdf: ListPdfItem,
   ) => void;
+
+  onDownload: (
+  pdf: ListPdfItem,
+) => void;
 }
 
 const PdfCard = ({
   pdf,
   onView,
   onDelete,
+  onDownload,
 }: PdfCardProps) => {
   return (
     <div className="rounded-2xl bg-white p-5 shadow-sm">
@@ -50,7 +55,14 @@ const PdfCard = ({
         >
           View
         </button>
-
+<button
+    onClick={() =>
+      onDownload(pdf)
+    }
+    className="rounded-lg bg-blue-500 px-4 py-2 text-white"
+  >
+    Download
+  </button>
         <button
           onClick={() =>
             onDelete(pdf)

@@ -14,12 +14,17 @@ interface PdfGridProps {
   onDelete: (
     pdf: ListPdfItem,
   ) => void;
+
+  onDownload: (
+    pdf: ListPdfItem,
+  ) => void;
 }
 
 const PdfGrid = ({
   pdfs,
   onView,
   onDelete,
+  onDownload,
 }: PdfGridProps) => {
   if (pdfs.length === 0) {
     return (
@@ -29,6 +34,7 @@ const PdfGrid = ({
     );
   }
 
+
   return (
     <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
       {pdfs.map((pdf) => (
@@ -37,6 +43,9 @@ const PdfGrid = ({
           pdf={pdf}
           onView={onView}
           onDelete={onDelete}
+ onDownload={
+  onDownload
+}
         />
       ))}
     </div>

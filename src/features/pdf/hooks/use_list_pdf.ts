@@ -1,8 +1,8 @@
 import { useQuery }
   from '@tanstack/react-query';
 
-import { listPdfService }
-  from '../services/list_pdf_service';
+import { listPdfApi }
+  from '../api/pdf_api';
 
 import type {
   PdfType,
@@ -30,7 +30,7 @@ export const useListPdf = ({
     ],
 
     queryFn: () =>
-      listPdfService({
+      listPdfApi({
         type,
         page,
         limit,

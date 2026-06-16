@@ -1,8 +1,8 @@
 import { useQuery }
   from '@tanstack/react-query';
 
-import { viewPdfService }
-  from '../services/view_pdf_service';
+import { viewPdfApi }
+  from '../api/pdf_api';
 
 export const useViewPdf = (
   storedFileName: string,
@@ -14,7 +14,7 @@ export const useViewPdf = (
     ],
 
     queryFn: () =>
-      viewPdfService(
+      viewPdfApi(
         storedFileName,
       ),
 

@@ -10,8 +10,12 @@ import { useUploadPdf } from '../hooks/use_upload_pdf';
 
 import { useListPdf } from '../hooks/use_list_pdf';
 
+import { useDeletePdf } from '../hooks/use_delete_pdf';
+
+import { useQueryClient } from '@tanstack/react-query';
+
 import { useNavigate }
-  from 'react-router-dom'; 
+  from 'react-router-dom';
 
 
 import type {
@@ -30,8 +34,14 @@ const PdfDashboardPage = () => {
   const [page, setPage] =
     useState(1);
 
-const navigate =
-  useNavigate();
+  const navigate =
+    useNavigate();
+
+  const queryClient = useQueryClient();
+
+  const {
+    mutate: deletePdfMutation,
+  } = useDeletePdf();
 
   const {
     data,
@@ -48,6 +58,14 @@ const navigate =
     isPending,
   } = useUploadPdf();
 
+  const handleDownloadPdf = (
+    pdf: ListPdfItem,
+  ) => {
+    window.open(
+      pdf.url,
+      '_blank',
+    );
+  };
 
   const handleUpload = () => {
     if (!selectedFile) {
@@ -58,10 +76,11 @@ const navigate =
       return;
     }
 
+    const formData = new FormData();
+    formData.append('pdf', selectedFile);
+
     uploadPdfMutation(
-      {
-        file: selectedFile,
-      },
+      formData,
       {
         onSuccess: (response) => {
           toast.success(
@@ -73,6 +92,7 @@ const navigate =
           );
 
           setSelectedFile(null);
+          queryClient.invalidateQueries({ queryKey: ['pdfs'] });
         },
 
         onError: (
@@ -90,22 +110,24 @@ const navigate =
   const handleViewPdf = (
     pdf: ListPdfItem,
   ) => {
-   navigate(
-    `/pdf/view/${pdf.stored_file_name}`,
-  );
+    navigate(
+      `/pdf/view/${pdf.stored_file_name}`,
+    );
   };
 
 
   const handleDeletePdf = (
     pdf: ListPdfItem,
   ) => {
-    console.log(
-      'DELETE PDF:',
-      pdf,
-    );
-
-
-    // delete mutation
+    deletePdfMutation(pdf.stored_file_name, {
+      onSuccess: () => {
+        toast.success('PDF deleted successfully');
+        queryClient.invalidateQueries({ queryKey: ['pdfs'] });
+      },
+      onError: (error: Error) => {
+        toast.error(`Failed to delete PDF: ${error.message}`);
+      },
+    });
   };
 
   return (
@@ -152,9 +174,9 @@ const navigate =
               setPage(1);
             }}
             className={`rounded-xl px-5 py-3 font-medium transition ${activeTab ===
-                'original'
-                ? 'bg-black text-white'
-                : 'bg-white text-black shadow-sm'
+              'original'
+              ? 'bg-black text-white'
+              : 'bg-white text-black shadow-sm'
               }`}
           >
             Original PDFs
@@ -169,9 +191,9 @@ const navigate =
               setPage(1);
             }}
             className={`rounded-xl px-5 py-3 font-medium transition ${activeTab ===
-                'extracted'
-                ? 'bg-black text-white'
-                : 'bg-white text-black shadow-sm'
+              'extracted'
+              ? 'bg-black text-white'
+              : 'bg-white text-black shadow-sm'
               }`}
           >
             Extracted PDFs
@@ -195,6 +217,10 @@ const navigate =
             onDelete={
               handleDeletePdf
             }
+            onDownload={
+              handleDownloadPdf
+            }
+
           />
         )}
 

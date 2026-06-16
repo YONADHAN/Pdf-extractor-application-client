@@ -72,7 +72,11 @@ const LoginPage = () => {
                         isPending={isPending}
                     />
                 </form>
+                <div className='flex place-content-center'>
+                    <span className='pt-3 text-blue-700 cursor-pointer' onClick={()=>{navigate('/register')}}>Sign up</span>
+                </div>
             </div>
+            
         </div>
     );
 };

@@ -1,158 +1,139 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import axiosInstance from '@/shared/api/axios';
-
-import { useAppDispatch } from '@/shared/hooks/redux_hooks';
-
-import { clearUser } from '@/features/auth/redux/auth_slice';
+import {
+  FileText,
+  ArrowRight,
+  ShieldCheck,
+  Download,
+  Scissors,
+} from 'lucide-react';
 
 const HomePage = () => {
-  const [meResponse, setMeResponse] =
-    useState<unknown>(null);
-
-  const [refreshResponse, setRefreshResponse] =
-    useState<unknown>(null);
-
-  const [loading, setLoading] =
-    useState(false);
-
-const dispatch = useAppDispatch();
-
-  // logout fn
-
-  // POST /auth/logout
-  const handleLogout = async () => {
-    try {
-      setLoading(true);
-
-      const response =
-        await axiosInstance.post(
-          '/auth/logout',
-        );
-
-      console.log(response.data);
-
-      // CLEAR REDUX LATER
-      dispatch(clearUser());
-
-      setMeResponse(null);
-
-      setRefreshResponse(null);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
-  // GET /pdf/me
-  const handleGetMe = async () => {
-    try {
-      setLoading(true);
-
-      const response =
-        await axiosInstance.get('/pdf/me');
-
-      console.log(response.data);
-
-      setMeResponse(response.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // POST /auth/refresh
-  const handleRefresh = async () => {
-    try {
-      setLoading(true);
-
-      const response =
-        await axiosInstance.post(
-          '/auth/refresh',
-        );
-
-      console.log(response.data);
-
-      setRefreshResponse(response.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const navigate =
+    useNavigate();
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold">
-        Home Page
-      </h1>
-
-      <div className="flex gap-4">
-        {/* GET /pdf/me */}
-        <button
-          onClick={handleGetMe}
-          disabled={loading}
-          className="rounded-lg bg-black px-6 py-3 text-white transition hover:opacity-90 disabled:opacity-50"
-        >
-          GET /pdf/me
-        </button>
-
-        {/* POST /auth/refresh */}
-        <button
-          onClick={handleRefresh}
-          disabled={loading}
-          className="rounded-lg bg-blue-600 px-6 py-3 text-white transition hover:opacity-90 disabled:opacity-50"
-        >
-          POST /auth/refresh
-        </button>
-
-        {/* POST /auth/logout */}
-        <button
-          onClick={handleLogout}
-          disabled={loading}
-          className="rounded-lg bg-red-600 px-6 py-3 text-white transition hover:opacity-90 disabled:opacity-50"
-        >
-          POST /auth/logout
-        </button>
-      </div>
-
-      {/* /me RESPONSE */}
-      {meResponse && (
-        <div className="w-full max-w-2xl rounded-xl bg-white p-4 shadow">
-          <h2 className="mb-2 text-lg font-semibold">
-            /pdf/me Response
-          </h2>
-
-          <pre className="overflow-auto text-sm">
-            {JSON.stringify(
-              meResponse,
-              null,
-              2,
-            )}
-          </pre>
+    <div className="min-h-screen bg-gradient-to-br from-zinc-100 via-white to-red-50">
+      {/* HERO */}
+      <section className="mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-6 py-16 text-center">
+        {/* PDF ICON */}
+        <div className="mb-8 flex h-28 w-28 items-center justify-center rounded-3xl bg-red-600 shadow-2xl shadow-red-200">
+          <FileText
+            size={56}
+            className="text-white"
+          />
         </div>
-      )}
 
-      {/* /refresh RESPONSE */}
-      {refreshResponse && (
-        <div className="w-full max-w-2xl rounded-xl bg-white p-4 shadow">
-          <h2 className="mb-2 text-lg font-semibold">
-            /auth/refresh Response
-          </h2>
+        {/* TITLE */}
+        <h1 className="max-w-4xl text-5xl font-black leading-tight tracking-tight text-zinc-900 md:text-7xl">
+          Smart
+          {' '}
+          <span className="text-red-600">
+            PDF
+          </span>
+          {' '}
+          Extraction
+          <br />
+          Made Simple
+        </h1>
 
-          <pre className="overflow-auto text-sm">
-            {JSON.stringify(
-              refreshResponse,
-              null,
-              2,
-            )}
-          </pre>
+        {/* DESCRIPTION */}
+        <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-600 md:text-xl">
+          Upload PDFs, select
+          pages, rearrange
+          them visually, and
+          generate brand-new
+          PDFs instantly.
+        </p>
+
+        {/* CTA */}
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-5">
+          <button
+            onClick={() =>
+              navigate('/pdf')
+            }
+            className="group flex items-center gap-3 rounded-2xl bg-black px-8 py-4 text-lg font-semibold text-white shadow-lg transition hover:scale-105"
+          >
+            Open Dashboard
+
+            <ArrowRight
+              size={22}
+              className="transition group-hover:translate-x-1"
+            />
+          </button>
+
+          <button className="rounded-2xl border border-zinc-300 bg-white px-8 py-4 text-lg font-semibold text-zinc-700 transition hover:bg-zinc-100">
+            Learn More
+          </button>
         </div>
-      )}
 
+        {/* FEATURES */}
+        <div className="mt-24 grid w-full grid-cols-1 gap-6 md:grid-cols-3">
+          {/* CARD 1 */}
+          <div className="rounded-3xl border border-zinc-200 bg-white p-8 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+            <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-100">
+              <Scissors
+                className="text-red-600"
+                size={28}
+              />
+            </div>
+
+            <h3 className="text-xl font-bold">
+              Extract Pages
+            </h3>
+
+            <p className="mt-3 leading-7 text-zinc-600">
+              Select exactly the
+              pages you need and
+              create a new PDF
+              instantly.
+            </p>
+          </div>
+
+          {/* CARD 2 */}
+          <div className="rounded-3xl border border-zinc-200 bg-white p-8 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+            <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100">
+              <Download
+                className="text-blue-600"
+                size={28}
+              />
+            </div>
+
+            <h3 className="text-xl font-bold">
+              Download Anytime
+            </h3>
+
+            <p className="mt-3 leading-7 text-zinc-600">
+              Store original and
+              extracted PDFs and
+              access them whenever
+              needed.
+            </p>
+          </div>
+
+          {/* CARD 3 */}
+          <div className="rounded-3xl border border-zinc-200 bg-white p-8 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+            <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-green-100">
+              <ShieldCheck
+                className="text-green-600"
+                size={28}
+              />
+            </div>
+
+            <h3 className="text-xl font-bold">
+              Secure Access
+            </h3>
+
+            <p className="mt-3 leading-7 text-zinc-600">
+              Your PDFs are
+              protected with
+              authentication and
+              secure token-based
+              access.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

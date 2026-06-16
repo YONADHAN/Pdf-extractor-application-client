@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { uploadPdfService } from '../services/upload_pdf_service';
+import { uploadPdfApi } from '../api/pdf_api';
 
 export const useUploadPdf = () => {
   return useMutation({
-    mutationFn: uploadPdfService,
+    mutationFn: uploadPdfApi,
   });
 };

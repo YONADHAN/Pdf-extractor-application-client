@@ -70,5 +70,10 @@ export const responseInterceptorError =
       }
     }
 
+    const responseData = error.response?.data as { message?: string } | undefined;
+    if (responseData?.message) {
+      error.message = responseData.message;
+    }
+
     return Promise.reject(error);
   };

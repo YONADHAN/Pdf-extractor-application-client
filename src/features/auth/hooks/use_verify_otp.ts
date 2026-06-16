@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { verifyOtpService } from '../services/verify_otp_service';
+import { verifyOtpApi } from '../api/auth_api';
 
 export const useVerifyOtp = () => {
   return useMutation({
-    mutationFn: verifyOtpService,
+    mutationFn: verifyOtpApi,
   });
 };

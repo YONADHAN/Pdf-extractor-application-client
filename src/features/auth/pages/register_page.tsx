@@ -157,6 +157,9 @@ const RegisterPage = () => {
             isPending={isSendOtpPending}
           />
         </form>
+         <div className='flex place-content-center'>
+                    <span className='pt-3 text-blue-700 cursor-pointer' onClick={()=>{navigate('/login')}}>Sign In</span>
+                </div>
       </div>
 
       <VerifyOtpModal

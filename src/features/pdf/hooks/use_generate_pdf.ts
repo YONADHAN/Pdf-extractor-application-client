@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { generatePdfService } from '../services/generate_pdf_service';
+import { generatePdfApi } from '../api/pdf_api';
 
 export const useGeneratePdf =
   () => {
     return useMutation({
       mutationFn:
-        generatePdfService,
+        generatePdfApi,
     });
   };
